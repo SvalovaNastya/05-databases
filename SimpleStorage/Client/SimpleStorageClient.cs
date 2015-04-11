@@ -19,21 +19,41 @@ namespace Client
 
         public void Put(string id, Value value)
         {
-            var putUri = endpoints.First() + "api/values/" + id;
-            using (var client = new HttpClient())
-            using (var response = client.PutAsJsonAsync(putUri, value).Result)
-                response.EnsureSuccessStatusCode();
+            int i = 0;
+            while (i < endpoints.Count())
+            try
+            {
+                var putUri = endpoints.ElementAt(i) + "api/values/" + id;
+                using (var client = new HttpClient())
+                using (var response = client.PutAsJsonAsync(putUri, value).Result)
+                    response.EnsureSuccessStatusCode();
+                break;
+            }
+            catch (Exception)
+            {
+                i++;
+            }
         }
 
         public Value Get(string id)
         {
-            var requestUri = endpoints.First() + "api/values/" + id;
-            using (var client = new HttpClient())
-            using (var response = client.GetAsync(requestUri).Result)
+            int i = 0;
+            while (i < endpoints.Count())
+            try
             {
-                response.EnsureSuccessStatusCode();
-                return response.Content.ReadAsAsync<Value>().Result;
+                var requestUri = endpoints.ElementAt(i) + "api/values/" + id;
+                using (var client = new HttpClient())
+                using (var response = client.GetAsync(requestUri).Result)
+                {
+                    response.EnsureSuccessStatusCode();
+                    return response.Content.ReadAsAsync<Value>().Result;
+                }
             }
+            catch (Exception)
+            {
+                i++;
+            }
+            return null;
         }
     }
 }

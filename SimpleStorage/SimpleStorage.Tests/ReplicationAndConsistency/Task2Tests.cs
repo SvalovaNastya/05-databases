@@ -9,7 +9,6 @@ using NUnit.Framework;
 namespace SimpleStorage.Tests.ReplicationAndConsistency
 {
     [TestFixture]
-    [Ignore]
     public class Task2Tests : FuctionalTestBase
     {
         [SetUp]
